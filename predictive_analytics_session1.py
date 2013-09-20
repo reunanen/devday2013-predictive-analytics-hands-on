@@ -6,8 +6,8 @@ import numpy as np
 
 
 # Read the data in (edit the path if necessary)
-# Notice: The last option is needed since the data file do not include row indices.
-df = pd.read_csv(os.environ["HOME"] + "/wine/wine_quality_data.csv", index_col=False)
+# Notice: The last option is needed since the data file does not include row indices.
+df = pd.read_csv("wine_quality_data.csv", index_col=False)
 
 
 # Take a look at the dataset
