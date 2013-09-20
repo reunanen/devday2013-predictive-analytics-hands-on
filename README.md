@@ -23,6 +23,12 @@ Even though we are working with a toy example here, our aim is to provide an env
 
 To get started quickly (?), you can use a *virtual machine* that we have pre-built to already contain all the necessary libraries. First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and then add the machine that you can download from here (TODO). (The same machine in [OVF format](http://en.wikipedia.org/wiki/Open_Virtualization_Format) is available here (TODO).)
 
+Please note that:
+
+* The version of VirtualBox should be 4.2.18 or later. If not, you may run into weird problems. 
+* The virtual machine is installed with Finnish keyboard settings. You may want to change this. 
+* The user's password is `DevDay2013`. 
+
 If you don't want to use the virtual machine, feel free to install the environment directly onto your computer. The necessary libraries are listed below.
 
 ## Required libraries (relevant if _not_ using the provided virtual machine)
