@@ -105,7 +105,7 @@ visualize_result_2d_linear(y, X, mfit, var1, var2)
 
 # If you want a more flexible decision boundary, you can add nonlinear terms
 # to the model.
-# Then the model is still linear with respect to variables it sees, but not
+# Then the model is still linear with respect to the variables it sees, but not
 # with respect to the original data!
 def add_mterm(X, vars):
     """Add a multiplicative term to the model."""
