@@ -1,4 +1,4 @@
-devday2013-predictive-analytics-hands-on
-========================================
+Dev Day 2013: Predictive Analytics Hands-on session
+===================================================
 
-Instructions and sample code for the Predictive Analytics Hands-on session at Dev Day 2013
+TODO: add instructions here
