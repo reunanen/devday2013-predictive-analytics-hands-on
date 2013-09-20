@@ -127,7 +127,7 @@ The optimization technique is called [maximum likelihood](http://en.wikipedia.or
 
 # Actually doing something
 
-The task is to devise a classifier of wine colour, given examples of existing wines and their 11 chemical properties not directly related to colour. Below a possible approach is sketched. At any point, if you think you are lost, feel free to ask!
+The task is to devise a classifier for the colour of wine, given examples of existing wines and their 11 chemical properties (which are not directly related to colour). Below, a possible approach is sketched. At any point, if you think you are lost, feel free to ask!
 
 ## Import relevant packages
 
