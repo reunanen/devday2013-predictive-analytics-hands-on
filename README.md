@@ -42,9 +42,13 @@ For Python, you need the following (installation with [`pip`](http://en.wikipedi
 ### On OS X
 
 * Make sure you have the XCode _command line tools_ installed.
-* Install the GNU Fortran compiler and Freetype fonts. With [brew|http://brew.sh/] that would be
+* Install the GNU Fortran compiler and Freetype fonts. With [brew](http://brew.sh/) that would be
+
+
 	brew install gfortran freetype
+	
 * Tune up the Python environment. (This should work if you use the Python provided by Apple. With, e.g., the newest Python by brew, prepare for architecture problems between various C libraries and the Python binary.)
+
 
 	sudo easy_install pip
 	sudo pip install --upgrade numpy
