@@ -30,33 +30,31 @@ If you don't want to use the virtual machine, feel free to install the environme
 ### On Linux
 
 To run these examples, you should install the following packages (Ubuntu names used here):
-- g++, gfortran
-- libblas-dev, liblapack-dev
-- libfreetype6-dev, libpng12-dev
-- ipython, python-pip, python-dev
+
+* g++, gfortran
+* libblas-dev, liblapack-dev
+* libfreetype6-dev, libpng12-dev
+* ipython, python-pip, python-dev
 
 For Python, you need the following (installation with [`pip`](http://en.wikipedia.org/wiki/Pip_(package_manager)) is recommended):
-- [numpy](http://www.numpy.org/), [scipy](http://www.scipy.org/)
-- [matplotlib](http://matplotlib.org/), [pandas](http://pandas.pydata.org/), [patsy](https://github.com/pydata/patsy), [statsmodels](http://statsmodels.sourceforge.net/)
+
+* [numpy](http://www.numpy.org/), [scipy](http://www.scipy.org/)
+* [matplotlib](http://matplotlib.org/), [pandas](http://pandas.pydata.org/), [patsy](https://github.com/pydata/patsy), [statsmodels](http://statsmodels.sourceforge.net/)
 
 ### On OS X
 
 * Make sure you have the XCode _command line tools_ installed.
-* Install the GNU Fortran compiler and Freetype fonts. With [brew](http://brew.sh/) that would be
+* Install the GNU Fortran compiler and Freetype fonts. With [`brew`](http://brew.sh/) that would be
 
-    brew install gfortran freetype
+	    brew install gfortran freetype
 	
 * Tune up the Python environment. (This should work if you use the Python provided by Apple. With, e.g., the newest Python by brew, prepare for architecture problems between various C libraries and the Python binary.)
 
-    sudo easy_install pip
-
-    sudo pip install --upgrade numpy
-
-    sudo pip install scipy # If installing scipy fails because of some missing numpy files, you can try uninstalling and reinstalling numpy
-
-    sudo pip install pandas cython nose matplotlib ipython patsy
-
-    sudo pip install statsmodels pymc
+    	sudo easy_install pip
+	    sudo pip install --upgrade numpy
+	    sudo pip install scipy # If installing scipy fails because of some missing numpy files, you can try uninstalling and reinstalling numpy
+	    sudo pip install pandas cython nose matplotlib ipython patsy
+    	sudo pip install statsmodels pymc
 
 # Introduction
 
