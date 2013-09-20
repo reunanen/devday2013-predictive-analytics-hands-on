@@ -42,15 +42,21 @@ For Python, you need the following (installation with [`pip`](http://en.wikipedi
 ### On OS X
 
 * Make sure you have the XCode _command line tools_ installed.
-* Install the GNU Fortran compiler and Freetype fonts. With [brew|http://brew.sh/] that would be
-	brew install gfortran freetype
+* Install the GNU Fortran compiler and Freetype fonts. With [brew](http://brew.sh/) that would be
+
+    brew install gfortran freetype
+	
 * Tune up the Python environment. (This should work if you use the Python provided by Apple. With, e.g., the newest Python by brew, prepare for architecture problems between various C libraries and the Python binary.)
 
-	sudo easy_install pip
-	sudo pip install --upgrade numpy
-	sudo pip install scipy # If installing scipy fails because of some missing nunpy files, you can try uninstalling and reinstalling numpy
-	sudo pip install pandas cython nose matplotlib ipython patsy
-	sudo pip install statsmodels pymc
+    sudo easy_install pip
+
+    sudo pip install --upgrade numpy
+
+    sudo pip install scipy # If installing scipy fails because of some missing numpy files, you can try uninstalling and reinstalling numpy
+
+    sudo pip install pandas cython nose matplotlib ipython patsy
+
+    sudo pip install statsmodels pymc
 
 # Introduction
 
@@ -64,7 +70,6 @@ _Predictive models_ learn relationships and patterns from historical data to for
 
 From Wikipedia:
 
-{quote}
 > [*Analytics*](http://en.wikipedia.org/wiki/Analytics) is the discovery and communication of meaningful patterns in data. Especially valuable in areas rich with recorded information, analytics relies on the simultaneous application of [statistics](http://en.wikipedia.org/wiki/Statistics), [computer programming](http://en.wikipedia.org/wiki/Computer_programming) and [operations research](http://en.wikipedia.org/wiki/Operations_research) to quantify performance. Analytics often favors [data visualization](http://en.wikipedia.org/wiki/Data_visualization) to communicate insight.
 
 >*[Predictive analytics](http://en.wikipedia.org/wiki/Predictive_analytics)* encompasses a variety of techniques from [statistics](http://en.wikipedia.org/wiki/Statistics), [modeling](http://en.wikipedia.org/wiki/Predictive_modelling), [machine learning](http://en.wikipedia.org/wiki/Machine_learning), and [data mining](http://en.wikipedia.org/wiki/Data_mining) that analyze current and historical facts to make [predictions](http://en.wikipedia.org/wiki/Prediction) about future, or otherwise unknown, events.
@@ -134,7 +139,7 @@ There is a lot of interactive work ahead, so we use acronyms for the packages. (
 	import pylab as pl
 	import numpy as np
 
-## How to read in the data:
+## How to read in the data
 
 	# In the same directory as wine data
 	df = pd.read_csv("wine_quality_data.csv")
