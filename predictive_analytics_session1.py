@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import statsmodels.api as sm
 import pylab as pl

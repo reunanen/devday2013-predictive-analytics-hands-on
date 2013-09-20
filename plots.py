@@ -2,6 +2,10 @@
 Functions to help with plotting. These are quite specific to the dev day presentation. 
 """
 
+import pandas as pd
+import pylab as pl
+import numpy as np
+
 # 1d grid that spans the value range of a vector, evenly. 
 def vargrid(x, n=300):
 	x0, x1 = min(x), max(x); return np.arange(x0, x1, (x1 - x0)/float(n))
