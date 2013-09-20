@@ -3,6 +3,7 @@ import statsmodels.api as sm
 import pylab as pl
 import numpy as np
 
+# Our own plotting functions, somewhat specific to this hand-on session. 
 from plots import *
 
 # Read the data (edit the path if necessary)
@@ -65,11 +66,11 @@ plot_scatter(y, X, var1, var2, np.log, np.log, alpha=0.2, ymax=0.4)
 # For all models, it makes sense to have a constant predictor in the model. 
 # (You may try to find out why this is necessary...)
 # So let's add one to the data.
-X['intercept'] = 1.0
+X['intercept'] = 1.0 			# FIXME: add this to df already?
 
 # For convenience, define a list of variables we will use.
 # (Note: tuple does not work here because this is used for indexing later)
-vars2d = [var1, var2, 'intercept']
+vars2d = ['fixed_acidity', 'chlorides', 'intercept']
 
 # The magic happens here.
 model = sm.Logit(y, X[vars2d]) 		# Create the model object
@@ -157,6 +158,27 @@ pl.show()
 # Again, note the zoom tool in the plot window.
 
 
+# (Last session)
+# Evaluating models with leave-out data
 
+# Make this a bit more functional. :)
 
+df['intercept'] = 1.0
+vars =['fixed_acidity', 'volatile_acidity', 'citric_acid',
+       'residual_sugar', 'chlorides', 'free_sulfur_dioxide',
+       'total_sulfur_dioxide', 'density', 'pH', 'sulphates',
+       'alcohol', 'intercept']
 
+def X(df, vars=vars): return df[vars]
+def y(df): return np.array(df['wine_color']=="red", int)
+
+# Split the data set randomly into two.
+(X_train, y_train), (X_test, y_test) = [(X(i[1]), y(i[1])) for i in df.groupby(np.random.random(len(df))>.5)]
+
+model = sm.Logit(y_train, X_train[vars2d])
+mfit = model.fit()
+print mfit.summary()
+
+# Predict on *test* data.
+p_test = mfit.predict(X_test[vars2d])
+print pacc(y_test, p_test)
