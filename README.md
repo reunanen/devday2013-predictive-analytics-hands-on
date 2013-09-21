@@ -19,9 +19,9 @@ More theoretical:
 
 Even though we are working with a toy example here, our aim is to provide an environment that will be useful even for some serious work in the field of predictive analytics. Obviously we would also like our environment to have a permissive license. For these reasons, the end result is bound to be somewhat involved. You basically have two options:
 
-## Using a virtual machine
+## Alternative 1: Using a virtual machine
 
-To get started quickly (?), you can use a *virtual machine* that we have pre-built to already contain all the necessary libraries. First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and then add the machine that you can download from here (TODO). (The same machine in [OVF format](http://en.wikipedia.org/wiki/Open_Virtualization_Format) is available here (TODO).)
+To get started quickly (?), you can use a virtual machine that we have pre-built to already contain all the necessary libraries. First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and then add the machine that you can download from here (TODO). (The same machine in [OVF format](http://en.wikipedia.org/wiki/Open_Virtualization_Format) is available here (TODO).)
 
 Please note that:
 
@@ -29,16 +29,18 @@ Please note that:
 * The virtual machine is installed with Finnish keyboard settings. You may want to change this. 
 * The user's password is `DevDay2013`. 
 
-First, update the latest instructions from GitHub:
+Once you have the virtual machine running, update the latest instructions and code from GitHub:
 
 	cd ~/devday2013-predictive-analytics-hands-on
 	git pull
 
 If you don't want to use the virtual machine, feel free to install the environment directly onto your computer. The necessary libraries are listed below.
 
-## Required libraries (relevant if _not_ using the provided virtual machine)
+## Alternative 2: Required libraries
 
-The data and some code you can get from GitHub:
+**Note that this section is relevant only if _not_ using the provided virtual machine.**
+
+The data and some sample code you can get from GitHub:
 
 	git clone https://github.com/reunanen/devday2013-predictive-analytics-hands-on
 
