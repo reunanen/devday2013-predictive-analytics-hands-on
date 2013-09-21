@@ -1,6 +1,10 @@
 Dev Day 2013: Predictive Analytics Hands-on session
 ===================================================
 
+If possible, please prepare for this session by downloading the virtual machine or the relevant libraries *beforehand*. (See section "Getting ready" below.)
+
+It is a good idea to pair up for this session. If you are not familiar with Python, it is recommended that you find someone who is.
+
 # Useful links
 
 Practical ones:
