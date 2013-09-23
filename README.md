@@ -25,7 +25,9 @@ Even though we are working with a toy example here, our aim is to provide an env
 
 ## Alternative 1: Using a virtual machine
 
-To get started quickly (?), you can use a virtual machine that we have pre-built to already contain all the necessary libraries. First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), and then add the machine that you can download from here (TODO). (The same machine in [OVF format](http://en.wikipedia.org/wiki/Open_Virtualization_Format) is available here (TODO).)
+To get started quickly (?), you can use a virtual machine that we have pre-built to already contain all the necessary libraries. **You can download the virtual machine from [here](http://download.reaktor.fi/PredictiveAnalyticsHandsOn/DevDay2013-PredictiveAnalyticsHandsOn.ova).** (It's running Ubuntu.)
+
+If you already have something like VMware installed, feel free to use it. If not, then you can download for example [VirtualBox](https://www.virtualbox.org/wiki/Downloads). In VirtualBox, you can add the machine via the Import Appliance menu item.
 
 Please note that:
 
