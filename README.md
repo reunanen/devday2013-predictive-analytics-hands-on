@@ -132,7 +132,7 @@ Before modelling, it is essential to get familiar with the data. Simple statisti
 
 ![Histogram](img/histogram_pH2.png)
 
-![Histogram with classes](img/hist_classes2.png)
+![Histogram with classes](img/hist_classess2.png)
 
 A scatter plot shows not only variation but _covariation_ of two variables. Other information can be included. Below colours of the dots present wine type, so one sees how well the red (red dots) and white (yellowish dots) wines are separated by these two variables.
 
