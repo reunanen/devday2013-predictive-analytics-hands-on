@@ -130,15 +130,15 @@ The variables are available for 1599 red and 4898 white wines, respectively. The
 
 Before modelling, it is essential to get familiar with the data. Simple statistics such as mean and standard deviation give some idea of variation of the data. More visual and comprehensive strategy is to plot histograms or scatter plots of the variables. Histogram is a kind of estimate of the (probability) distribution of the variable. Below as an example is the distribution of the pH values of wines. pH values outside the range 2.9-3.6 are uncommon. The second graph shows histograms of pH values separately for red (red bars) and white (green bars).
 
-![Histogram](img/histogram_pH.png)
+![Histogram](img/histogram_pH2.png)
 
-![Histogram with classes](img/hist_classes.png)
+![Histogram with classes](img/hist_classes2.png)
 
 A scatter plot shows not only variation but _covariation_ of two variables. Other information can be included. Below colours of the dots present wine type, so one sees how well the red (red dots) and white (yellowish dots) wines are separated by these two variables.
 
 The blue line is a _decision boundary_ that could be used to classify new wines, if only these two variables were available. In our case, the objective of modelling is to find a decision boundary such that the classification accuracy of _new, yet unseen wines_, is maximized.
 
-![Scatter plot](img/scatter_plot.png)
+![Scatter plot](img/scatter_plot2.png)
 
 A decision boundary can also be 'soft' in the sense that near the boundary we know that the correct class could really be either. Furthermore, the decision boundary can be _non-linear_. The figure below illustrates a non-linear, 'soft' decision rule.
 
