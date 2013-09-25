@@ -202,8 +202,10 @@ def preds_all(df):
 	return X
 
 # You may experiment with more quadratic terms
-def all_pairs(x): return [(i, j) for i in x for j in x if i<=j]
-df_huge = reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df))
+def diag_triangular(x): return [(i, j) for i in x for j in x if i<=j]
+def triangular(x): return [(i, j) for i in x for j in x if i<j]
+
+if 0: df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
 
 # Cross validation does not waste half of the data for testing:
 # It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
@@ -217,5 +219,3 @@ n_success = cv(is_red(df), my_preds2(df), 10,
 	       # The function to evaluate results: How many are right?
 	       lambda p, y: sum(y == (p>0.5)))	
 print 100*n_success/float(len(df))
-
-
