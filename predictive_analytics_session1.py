@@ -193,7 +193,7 @@ p_test = mfit.predict(my_preds2(df_test))
 print pacc(is_red(df_test), p_test)
 
 # ... or both
-print [pacc(is_red(df_part), mfit.predict(my_preds2(df_part))) for df_part in (df_train, df_test)]
+print [pacc(is_red(d), mfit.predict(my_preds2(d))) for d in (df_train, df_test)]
 
 # Hmm, how about with all variables?
 def preds_all(df):
@@ -201,45 +201,21 @@ def preds_all(df):
 	X['intercept'] = 1.0
 	return X
 
-model = sm.Logit(is_red(df_train), preds_all(df_train))
-mfit = model.fit()
-print [pacc(is_red(df_part), mfit.predict(preds_all(df_part))) for df_part in (df_train, df_test)]
-
-# Make it a function
-def test_model(predfun, df_train=df_train, df_test=df_test): 
-	mfit = sm.Logit(is_red(df_train), predfun(df_train)).fit()
-	print [pacc(is_red(df_part), mfit.predict(predfun(df_part))) for df_part in (df_train, df_test)]
-
-print test_model(my_preds2)
-print test_model(preds_all)
-v1, v2 = 'fixed_acidity', 'chlorides'
-print test_model(lambda df: reduce(add_mterm, nonlins(v1, v2), preds2(df, v1, v2)))
-print test_model(lambda df: reduce(add_mterm, nonlins(v1, v2), preds_all(df)))
-
+# You may experiment with more quadratic terms
 def all_pairs(x): return [(i, j) for i in x for j in x if i<=j]
+df_huge = reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df))
 
-Xbig = reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df))
-print Xbig.shape
-# Oops, a singular matrix!
-print test_model(lambda df: reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df)))
+# Cross validation does not waste half of the data for testing:
+# It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
+# and loops this through all the ten pieces. 
 
-# Adding noise helps?
-df2 = df.copy()
-for v in chemvars(df).columns: df2[v] += np.std(df2[v])*np.random.standard_normal(len(df2))
-df_train, df_test = [i[1] for i in df2.groupby(np.random.random(len(df2))>.5)]
-def test_model(predfun, df_train=df_train, df_test=df_test): 
-	mfit = sm.Logit(is_red(df_train), predfun(df_train)).fit()
-	print [pacc(is_red(df_part), mfit.predict(predfun(df_part))) for df_part in (df_train, df_test)]
-print test_model(my_preds2)
-print test_model(preds_all)
-v1, v2 = 'fixed_acidity', 'chlorides'
-print test_model(lambda df: reduce(add_mterm, nonlins(v1, v2), preds2(df, v1, v2)))
-print test_model(lambda df: reduce(add_mterm, nonlins(v1, v2), preds_all(df)))
+from crossvalidation import cv
 
-def all_pairs(x): return [(i, j) for i in x for j in x if i<=j]
+n_success = cv(is_red(df), my_preds2(df), 10,
+	       # The function to build the model and predict
+	       lambda ytr, Xtr, Xev: sm.Logit(ytr, Xtr).fit().predict(Xev), 
+	       # The function to evaluate results: How many are right?
+	       lambda p, y: sum(y == (p>0.5)))	
+print 100*n_success/float(len(df))
 
-Xbig = reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df))
-print Xbig.shape
-# Oops, a singular matrix!
-print test_model(lambda df: reduce(add_mterm, all_pairs(chemvars(df).columns), chemvars(df)))
 
