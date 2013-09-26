@@ -12,7 +12,7 @@ Practical ones:
 * [Numpy tutorial](http://wiki.scipy.org/Tentative_NumPy_Tutorial): we will not use Numpy extensively, just for light data manipulation. Numpy is the [R](http://r-project.org/) or Matlab of Python.
 * [A short tutorial](http://pandas.pydata.org/pandas-docs/stable/10min.html) on Pandas, the Python "data frame" library. Pandas is a higher-level structure on arrays, allowing heterogeneous columns, column names, etc.
 * [Logistic regression with Python](http://blog.yhathq.com/posts/logistic-regression-and-python.html) and its statsmodels package. Logistic regression is a way to make a classifier that gives out probabilities.
-
+* [Regularized logistic regression with Python](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) from the [Scikit-learn](http://scikit-learn.org/) package. We don't introduce regularization in this hands-on. In practice it is almost mandatory if you have a large predictive problem. 
 
 
 More theoretical:
