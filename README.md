@@ -197,7 +197,7 @@ There is a lot of interactive work ahead, so we use acronyms for the packages. (
             return df[['fixed_acidity', 'volatile_acidity', 'citric_acid',
                        'residual_sugar', 'chlorides', 'free_sulfur_dioxide',
                        'total_sulfur_dioxide', 'density', 'pH', 'sulphates',
-                       'alcohol']
+                       'alcohol']]
         # Yet another way to look at the data.
         print chemvars(df).describe()
 
