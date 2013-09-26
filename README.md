@@ -259,8 +259,8 @@ Some questions:
         # The function returns predictors for chosen two variables:
         def preds2(df, v1, v2):
             X = df[[v1, v2]]
-        X['intercept'] = 1.0
-        return X
+            X['intercept'] = 1.0
+            return X
 
         # For convenience, define a list of variables we will use.
         # (Note: tuple does not work here because this is used for indexing later)
