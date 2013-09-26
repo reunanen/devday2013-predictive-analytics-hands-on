@@ -166,104 +166,78 @@ The task is to devise a classifier for the colour of wine, given examples of exi
 
 There is a lot of interactive work ahead, so we use acronyms for the packages. (If you are proficient with these, you could import with '*' for even more brevity.)
 
-	import os
 	import pandas as pd
 	import statsmodels.api as sm
 	import pylab as pl
 	import numpy as np
 
+	# Our own plotting functions, somewhat specific to this hands-on session. 
+	from plots import *
+
 ## How to read in the data
 
-	# In the same directory as wine data
-	df = pd.read_csv("wine_quality_data.csv")
+	# Read the data (edit the path if necessary).
+	# We us pandas DataFrame data structure. It is a 2-dimensional
+	# labeled data structure with columns of potentially
+	# different type.
+	# See more info: http://pandas.pydata.org/pandas-docs/dev/dsintro.html
+	# The data file has no row indices/names, hence index_col=F.
+	df = pd.read_csv("wine_quality_data.csv", index_col=False)
 
-## The first insights into the data
+## The first part: Insights into the data
 
-	# Take a look at the first rows of the data set
-	print df.head()
+        # How the data looks like... first rows.
+   	print df.head()
 
-	# Names of the columns in the data set
-	print df.columns
+   	# What columns/variables are there?
+   	print df.columns
 
-	## Select the explanatory variables
-	vars = ['fixed_acidity', 'volatile_acidity', 'citric_acid',
-		'residual_sugar', 'chlorides', 'free_sulfur_dioxide',
-		'total_sulfur_dioxide', 'density', 'pH', 'sulphates',
-		'alcohol']
-	X = df[vars]
+   	# Variables that could be used to predict the wine type.
+   	def chemvars(df):
+            return df[['fixed_acidity', 'volatile_acidity', 'citric_acid',
+    	    	       'residual_sugar', 'chlorides', 'free_sulfur_dioxide',
+	     	       'total_sulfur_dioxide', 'density', 'pH', 'sulphates',
+		       'alcohol']
+        # Yet another way to look at the data.
+   	print chemvars(df).describe()
 
+   	# Histograms of all predictors.
+	plot_histograms(chemvars(df))
 
-	## Select a target variable. Notice: y==1 refers to red and y==0 to white wines from now on.
-	y = np.array(df['wine_color']=="red", int)
+## The first part: Further insights
 
-	## Summarize the data (means, standard deviations, quantiles)
-	print X.describe()
+        # The wine type is a string. Make a boolean type indicator.
+        def is_red(df): return np.array(df['wine_color']=="red", int)
 
+        # Calling the thing to be predicted 'y' is a convention.
+        y = is_red(df)
+ 
+        # Histograms by the wine type.
+        # Hint: This is very useful when you select or transform variables for a model
+        # later. 
+        plot_class_hists(y, chemvars(df), alpha=.3)
 
-	## Draw a histogram for each explanatory variable
-	def hcolsrows(X):
-	    cols = int(np.ceil(np.sqrt(len(X.columns))))
-	    rows = int(np.ceil(len(X.columns) / float(cols)))
-	    return cols, rows
+        # Pandas data frames are handy for calculating class-wise summary statistics.
+        # Some examples...
+        # - Percentages of wine types in the data
+        print 100*df.groupby(y).size()/float(len(df))
+        # - Means (averages) by wine type
+        print df.groupby(y).mean()
+        # - Standard deviations by wine type
+        print df.groupby(y).std()
 
-	def plot_histograms(X, no_bins=50):
-	    cols, rows = hcolsrows(X)
-	    for count, vi in enumerate(X.columns.values):
-		pl.subplot(rows, cols, count+1)
-		pl.hist(X[vi], bins = no_bins, color = 'b', alpha=0.5, edgecolor='b', histtype="stepfilled")
-		pl.title(vi)
-	    pl.show()
+        # We could use all the predictors in a model. 
+        # But to keep things simple, let's start with two variables only.
+        # (Things are easier to plot if you have only two dimensions.)
+        # Choose variables that separate the target classes (wine type) well.
+        # For example...
+        # Hint: Try other predictors. Look at the histograms by wine type.
 
-	## Notice, you may test different no_bins to see how it affects shape of plots
-	plot_histograms(X)
-
-## Further insights
-
-	## Try to get preliminary idea whether the classes are separable
-	## Plot histograms of all the variables (target classes separately)
-	def plot_class_hists(y, X, no_bins=50, alpha=0.5):
-	    cols, rows = hcolsrows(X)
-	    for count, vi in enumerate(X.columns.values):
-		pl.subplot(rows, cols, count+1)
-		pl.hist(X[vi][y==0], bins = no_bins, color = 'g', alpha=alpha, edgecolor='g', histtype="stepfilled")
-		pl.hist(X[vi][y==1], bins = no_bins, color = 'r', alpha=alpha, edgecolor='r', histtype="stepfilled")
-		pl.title(vi)
-	    pl.show()
-
-	plot_class_hists(y, X, alpha=.3)
-
-
-	## Calculate some statistics per classes
-
-	# Proportions of target classes (pandas functionality)
-	df['y'] = y
-	print df.groupby('y').size()/float(len(df))
-
-	# Means of variables in each target class
-	print df.groupby('y').mean()
-
-	# Standard deviation of variables in each target class
-	print df.groupby('y').std()
-
-	## Based on above graphs and statistics: Select two variables that could separate the classes from each other
-	# For example: var1, var2 = 'fixed_acidity', 'chlorides'
-	var1, var2 = 'EDIT_VARIABLE1', 'EDIT_VARIABLE2'
-
-	## Plot scatter plot of the selected two variables
-	# Leave the possibility to transform variables, set initially to identity function.
-	_1 = lambda x: x
-	def plot_scatter(y, X, var1, var2, f1=_1, f2=_1, alpha=0.5, xmax=None, ymax=None):
-	    pl.plot(f1(X[var1][y==0]), f2(X[var2][y==0]), 'g^', markeredgecolor='g', alpha=alpha)
-	    pl.plot(f1(X[var1][y==1]), f2(X[var2][y==1]), 'r*', markeredgecolor='r', alpha=alpha)
-	    pl.xlabel(var1)
-	    pl.ylabel(var2)
-	    pl.show()
-
-	# Using the the identity function
-	plot_scatter(y, X, var1, var2, alpha=0.2, ymax=0.4)
-
-	# Using the logarithmic transformation. You may think is there any advantage with logarithmic transformation.
-	plot_scatter(y, X, var1, var2, np.log, np.log, alpha=0.2, ymax=0.4)
+        # Plot scatter plot of the chosen vars, colors specify wine type.
+        plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', alpha=0.2, ymax=0.4)
+        # Our function allows transformations, see the code in plots.py
+       	# Logarithm compresses high values and opens up the scale at the lower end.
+        plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', np.log, np.log, alpha=0.2, ymax=0.4)
 	{code}
 
 Some questions:
@@ -272,51 +246,55 @@ Some questions:
 * How could this be modelled automatically? (Hint: see next two sections below.)
 
 
-## Find a linear decision boundary
+## The second part: Find a linear decision boundary
 
-	## Fit a logistic regression model using selected two variables
-	# Note: tuple does not work here (because this is used for indexing later)
-	vars2d = [var1, var2, 'intercept']
-	X['intercept'] = 1.0                    # Do not remove this, but you may think why is this needed? :)
+        # Fit a logistic regression model using two variables.
+	# More info for logistic regression: http://en.wikipedia.org/wiki/Logistic_regression
+	# In a regression model, you should have a free constant in the linear combination.
+	# It is called intercept. 
+	# (Think for a while a logistic regression with no variables, but either with an intercept
+	#  or without. The latter always gives p=0.5, the former adjusts to the prior class probabilities
+	#  of the data.)
+	# The intercept becomes conveniently added if you add a constant variable to the data.
+	# The function returns predictors for chosen two variables:
+	def preds2(df, v1, v2):
+    	    X = df[[v1, v2]]
+        X['intercept'] = 1.0
+        return X
 
-	# Create and fit the model
-	model = sm.Logit(y, X[vars2d])
-	mfit = model.fit()
+	# For convenience, define a list of variables we will use.
+	# (Note: tuple does not work here because this is used for indexing later)
 
-	# The probabilities of y==1 (being red wine) for each sample
-	p = mfit.predict(X[vars2d])
-
-	## Evaluate prediction accuracy. If probability is higher than 0.5, the sample is classified as red wine (y==1)
-	def prediction_accuracy(y, p):
-	    return sum(y == (p>0.5)) / float(len(y))
-
-	print prediction_accuracy(y, p)
+	# The magic happens here.
+	X = preds2(df, 'fixed_acidity', 'chlorides')
+	model = sm.Logit(y, X)				# Create model object.
+	mfit = model.fit()  				# Train the model, i.e., optimize its parameters
+	print mfit.summary()				# It did something!
 
 
-	## Visialize the result by a scatter plot and decision surface
-	# 1d grid that spans the values, evenly.
-	def vargrid(x, n=300):
-		x0, x1 = min(x), max(x); return np.arange(x0, x1, (x1 - x0)/float(n))
+        # Predictions: what the model "remembers" about the wines in the training data,
+  	# are the wines red or white (probabilities for the wine being red)
+        p = mfit.predict(X)
+	# How those probabilities compare to what the wines actually were?
+        # There are many ways to evaluate the predictions, here we just
+  	# see how many hits are correct if probabilities over 0.5 are guessed as red.
+        def pacc(y, p):
+            return 100*sum(y == (p>0.5)) / float(len(y))
+	print pacc(y, p)
 
-	## Draw a plot
-	def visualize_result_2d_linear(y, X, ml, var1, var2, alpha=0.25):
-	    # Set up a 2d grid
-	    x1g, x2g = np.meshgrid(vargrid(X[var1]), vargrid(X[var2]))
-	    Xg = pd.DataFrame({var1 : np.ravel(x1g), var2 : np.ravel(x2g), 'intercept' : 1.0})
-	    # Draw predictions below
-	    p = ml.predict(Xg[[var1, var2, 'intercept']])
-	    #h = pl.contourf(x1g, x2g, np.reshape(p, x1g.shape), 500, alpha=0.2)
-	    h = pl.contourf(x1g, x2g, np.reshape(p, x1g.shape), 300, cmap=pl.cm.gist_yarg)
-	    cbar = pl.colorbar()
-	    cbar.set_label('probability for y=1')
-	    # ... and data above.
-	    pl.plot(X[var1][y==0], X[var2][y==0], 'go', markeredgecolor='g', alpha=alpha)
-	    pl.plot(X[var1][y==1], X[var2][y==1], 'ro', markeredgecolor='r', alpha=alpha)
-	    pl.xlabel(var1); pl.ylabel(var2)
-	    pl.show()
+        # From the model's point of view, wine is what we have shown about it: vars2d.
+       	# Because of the '2d', it is easy to plot what the model thinks about
+  	# all possible wines, that is, all possible values of vars2d.
+      	# (remember, 'intercept' is just a constant)
+  	# Note the zoom tool in the fig!
+        visualize_result_2d_linear(y, X, mfit, 'fixed_acidity', 'chlorides')
 
-	visualize_result_2d_linear(y, X, mfit, var1, var2)
-	# Notice: In figure, there is a zoom tool that you may use to change axis limits.
+        # Shades of gray are probabilities.
+  	# (You may want to look at the plotting code in plots.py, but it is not relevant
+        # to the big picture.)
+
+     	# Note the linear decision boundary above. This comes from the linearity of the
+        # logistic regression model.
 
 Some questions:
 * Is this the best combination of two variables?
@@ -325,44 +303,118 @@ Some questions:
 * Would a more complex boundary be better?
 
 
-## Construct a more complicated model
+## The second part: Find A nonlinear decision boundary
 
-	## Let us use nonlinear transformations of the selected variables in the logistic regression model
+        # If you want a more flexible decision boundary, you can add nonlinear terms
+	# to the model.
+	# Then the model is still linear with respect to the variables it sees, but not
+	# with respect to the original data!
 	def add_mterm(X, vars):
-	    X = X.copy()
-	    X['*'.join(vars)] = np.multiply.reduce(X[list(vars)].values, 1)
+            """Add a multiplicative term to the model."""
+    	    X = X.copy()
+    	    X['*'.join(vars)] = np.multiply.reduce(X[list(vars)].values, 1)
 	    return X
 
-	## Create some transformations using powers and products of original variables
-	# For example: nonlins = [(var1, var1), (var2, var2), (var1, var1, var1), (var2, var2, var2), (var1, var2)]
-	Xn = reduce(add_mterm, nonlins, X[vars2d])
+	# Here are some multiplicative terms.
+	# For example, (var1, var1) will add the term var1*var1 to the model,
+	# so the model would be var1 + var2 + var1*var2 + intercept
+	def nonlins(v1, v2):
+	    # A bunch of simple nonlinear multiplicative terms. 
+    	    # Hint: You may edit the terms to test different terms.
+    	    return [(v1, v1), (v2, v2), (v1, v1, v1), (v2, v2, v2), (v1, v2)]
+        # Let's make a data with all the nonlinear terms above!
+	v1, v2 = 'fixed_acidity', 'chlorides'
+	Xn = reduce(add_mterm, nonlins(v1, v2), preds2(df, v1, v2))
+	y = is_red(df)	       		   		   # (just as a reminder)
 
-	## Fit the model using nonlinear transformations
-	m_nl = sm.Logit(y,Xn)
-	mfit_nl = m_nl.fit()
+	# Fit the model with all the new nonlinear terms. 
+	m_nl = sm.Logit(y, Xn) 	     	 # Model object with the expanded set of predictors. 
+	mfit_nl = m_nl.fit()		   	 # Fit it. 
+	print mfit_nl.summary()			       # See how it is
 
-	# Evaluate the prediction accuracy
+	# Probabilities the new model gives to wines being red
+	# Hint: you may plot p_nl against the predictions of the linear model (p).
 	p_nl = mfit_nl.predict(Xn)
-	print prediction_accuracy(y, p_nl)
+	# How many does it get right, in percentages?
+	print pacc(y, p_nl)
 
-	## Visualize the result (nonlinear decision boundary)
-	x1g, x2g = np.meshgrid(vargrid(X[var1]), vargrid(X[var2]))
-	Xg = pd.DataFrame({var1 : np.ravel(x1g)})
-	Xg[var2] = np.ravel(x2g)
-	Xg['intercept'] = 1.0
-	Xg = reduce(add_mterm, nonlins, Xg)
-	pg = mfit_nl.predict(Xg[Xn.columns])
+	# Visualize the probabilities (decision boundary) of the nonlinear model.
+	# This relies on v1, v2, and mfit defined above.
+	# - Set up a grid of values of the original variables 
+	x1g, x2g = np.meshgrid(vargrid(df[v1]), vargrid(df[v2]))
+	# - Make a data frame out of the values on the grid. 
+	Xg = pd.DataFrame({v1 : np.ravel(x1g), v2: np.ravel(x2g), 'intercept': 1.0})
+	# - Expand the data frame by computing all the nonlinearities.
+	Xg = reduce(add_mterm, nonlins(v1, v2), Xg)
+	# - Make sure the order of the terms is as in the original data
+	Xg = Xg[Xn.columns]
+	# - Compute predictions
+	pg = mfit_nl.predict(Xg)
 
+	# - Plot them
 	h = pl.contourf(x1g, x2g, np.reshape(pg, x1g.shape), 300, cmap=pl.cm.gist_yarg)
 	cbar = pl.colorbar()
 	cbar.set_label('probability for y=1')
-	pl.plot(X[var1][y==0], X[var2][y==0], 'g^', markeredgecolor='g', alpha=0.5)
-	pl.plot(X[var1][y==1], X[var2][y==1], 'r*', markeredgecolor='r', alpha=0.5)
-	pl.xlabel(var1); pl.ylabel(var2)
+	# - Overlay the data on top of predictions
+	pl.plot(X[v1][y==0], X[v2][y==0], 'g^', markeredgecolor='g', alpha=0.5)
+	pl.plot(X[v1][y==1], X[v2][y==1], 'r*', markeredgecolor='r', alpha=0.5)
+	pl.xlabel(v1); pl.ylabel(v2)
 	pl.show()
-
-	# In figure, there is a zoom tool that you may use to change axis limits.
+	# Quite a complex decision surface!
+	# Again, note the zoom tool in the plot window.
 
 Some questions:
 * Is this better than the linear decision boundary? How can we tell?
 * Would it be beneficial to use more than two variables? How would that happen? How can the results be visualized?
+
+## The third part: Automated model selection
+
+        # Evaluating models with leave-out data
+
+	# Make this a bit more functional. :)
+
+	# Split the data set randomly into two.
+	df_train, df_test = [i[1] for i in df.groupby(np.random.random(len(df))>.5)]
+
+	def my_preds2(df): return preds2(df, 'fixed_acidity', 'chlorides')
+
+	model = sm.Logit(is_red(df_train), my_preds2(df_train))
+	mfit = model.fit()
+	print mfit.summary()
+
+	# Predict on training data
+	p_train = mfit.predict(my_preds2(df_train))
+	print pacc(is_red(df_train), p_train)
+
+	# Predict on *test* data. The model has never seen these samples. 
+	p_test = mfit.predict(my_preds2(df_test))
+	print pacc(is_red(df_test), p_test)
+
+	# ... or both
+	print [pacc(is_red(d), mfit.predict(my_preds2(d))) for d in (df_train, df_test)]
+
+	# Hmm, how about with all variables?
+	def preds_all(df):
+            X = chemvars(df)
+     	    X['intercept'] = 1.0
+     	    return X
+
+	# You may experiment with more quadratic terms
+	def diag_triangular(x): return [(i, j) for i in x for j in x if i<=j]
+	def triangular(x): return [(i, j) for i in x for j in x if i<j]
+
+	# By following command you may create quadratic terms
+	df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
+
+	# Cross validation does not waste half of the data for testing:
+	# It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
+	# and loops this through all the ten pieces. 
+
+	from crossvalidation import cv
+
+	n_success = cv(is_red(df), my_preds2(df), 10,
+	           # The function to build the model and predict
+		   lambda ytr, Xtr, Xev: sm.Logit(ytr, Xtr).fit().predict(Xev), 
+		   # The function to evaluate results: How many are right?
+		   lambda p, y: sum(y == (p>0.5))) 
+        print 100*n_success/float(len(df))

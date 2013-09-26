@@ -6,7 +6,11 @@ import numpy as np
 # Our own plotting functions, somewhat specific to this hands-on session. 
 from plots import *
 
-# Read the data (edit the path if necessary)
+# Read the data (edit the path if necessary).
+# We us pandas DataFrame data structure. It is a 2-dimensional
+# labeled data structure with columns of potentially
+# different type.
+# See more info: http://pandas.pydata.org/pandas-docs/dev/dsintro.html
 # The data file has no row indices/names, hence index_col=F.
 df = pd.read_csv("wine_quality_data.csv", index_col=False)
 
@@ -61,10 +65,12 @@ plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', alpha=0.2, ymax=0.4)
 # Logarithm compresses high values and opens up the scale at the lower end.
 plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', np.log, np.log, alpha=0.2, ymax=0.4)
 
-# Modeling starts here...
+
+
+# Notice: The second part starts here.
 
 # Fit a logistic regression model using two variables.
-# [FIXME: add a reference somewhere, a slide or Wikipedia or something]
+# More info for logistic regression: http://en.wikipedia.org/wiki/Logistic_regression
 # In a regression model, you should have a free constant in the linear combination.
 # It is called intercept. 
 # (Think for a while a logistic regression with no variables, but either with an intercept
@@ -127,6 +133,7 @@ def add_mterm(X, vars):
 # so the model would be var1 + var2 + var1*var2 + intercept
 def nonlins(v1, v2):
 	# A bunch of simple nonlinear multiplicative terms. 
+    # Hint: You may edit the terms to test different terms.
 	return [(v1, v1), (v2, v2), (v1, v1, v1), (v2, v2, v2), (v1, v2)]
 # Let's make a data with all the nonlinear terms above!
 v1, v2 = 'fixed_acidity', 'chlorides'
@@ -170,7 +177,9 @@ pl.show()
 # Again, note the zoom tool in the plot window.
 
 
-# (Last session)
+
+# Notice: The third part starts here.
+
 # Evaluating models with leave-out data
 
 # Make this a bit more functional. :)
@@ -205,7 +214,8 @@ def preds_all(df):
 def diag_triangular(x): return [(i, j) for i in x for j in x if i<=j]
 def triangular(x): return [(i, j) for i in x for j in x if i<j]
 
-if 0: df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
+# By following command you may create quadratic terms
+df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
 
 # Cross validation does not waste half of the data for testing:
 # It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
