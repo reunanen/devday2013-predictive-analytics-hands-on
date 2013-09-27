@@ -2,10 +2,6 @@ Feedback and improvement ideas from the session on Thursday 26.9.
 
 * a simple test script to check that installation is ok.
 
-* Introduction: What is predictive analytics? 
-  - The second sentence is quite long. Rephrase it for example dividing into two
-    separate sentences.
-
 * Histograms
   - In the presentation: motivate them better
   - Perhaps one additional slide: "Know your data and problem" before insights slide.
