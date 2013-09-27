@@ -126,17 +126,18 @@ def add_mterm(X, vars):
 	X['*'.join(vars)] = np.multiply.reduce(X[list(vars)].values, 1)
 	return X
 
+def add_mterms(X, terms): return reduce(add_mterm, terms, X)
+
 # Here are some multiplicative terms.
 # For example, (var1, var1) will add the term var1*var1 to the model,
 # so the model would be var1 + var2 + var1*var2 + intercept
-def nonlins(v1, v2):
+def some_combinations(v1, v2):
 	# A bunch of simple nonlinear multiplicative terms. 
 	# Hint: You may want to edit the terms or define a more general function.
 	return [(v1, v1), (v2, v2), (v1, v1, v1), (v2, v2, v2), (v1, v2)]
 # Let's make a data with all the nonlinear terms above!
 v1, v2 = 'fixed_acidity', 'chlorides'
-def expand(X): return reduce(add_mterm, nonlins(v1, v2), X) # Binds the locals, not nice (FIXME?)
-Xn = expand(preds2(df, v1, v2))
+Xn = add_mterms(preds2(df, v1, v2), some_combinations(v1, v2))
 y = is_red(df)				# (just as a reminder)
 
 # Fit the model with all the new nonlinear terms. 
@@ -151,7 +152,9 @@ p_nl = mfit_nl.predict(Xn)
 print pacc(y, p_nl)
 
 # Visualize the probabily surface of the nonlinear model.
-plots.decision_surface(y, X, mfit_nl, v1, v2, expander=expand)
+# Note that the plotter needs a function that maps a two-dimensional data frame
+# onto the higher dimensional training data. 
+plots.decision_surface(y, X, mfit_nl, v1, v2, nlmap=lambda X: add_mterms(X, some_combinations(v1, v2)))
 # Quite a complex decision surface!
 # Again, note the zoom tool in the plot window.
 
