@@ -1,19 +1,10 @@
 Feedback and improvement ideas from the session on Thursday 26.9.
 
-* Histograms
-  - In the presentation: motivate them better
-  - Perhaps one additional slide: "Know your data and problem" before insights slide.
-
-* Improvements to presentation
-  - Differents tasks/phases in the real world problem
-  - Examples of real use cases
-
 * Add target audience in the beginning of the README.md and dev day page. 
   - The first draft added by jarkko.
+  - Review and send to forward to be added to teh web page if/when OK.
 
 * Keynote -> pdf (both)
-
-* Update figure: x^Tw -> x^Tw = 0
 
 * Re-think whether data should be manipulated such that claseses could not 
   be separated that well
