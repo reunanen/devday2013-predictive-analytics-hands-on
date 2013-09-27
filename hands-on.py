@@ -141,7 +141,7 @@ Xn = reduce(add_mterm, nonlins(v1, v2), preds2(df, v1, v2))
 y = is_red(df)				# (just as a reminder)
 
 # Fit the model with all the new nonlinear terms. 
-m_nl = sm.Logit(y, Xn) 			# Model object with the expanded set of predictors. 
+m_nl = sm.Logit(y, Xn)			# Model object with the expanded set of predictors. 
 mfit_nl = m_nl.fit()			# Fit it. 
 print mfit_nl.summary()			# See how it is
 
