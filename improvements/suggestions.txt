@@ -1,4 +1,3 @@
-
 Feedback and improvement ideas from the session on Thursday 26.9.
 
 * a simple test script to check that installation is ok.
@@ -6,8 +5,6 @@ Feedback and improvement ideas from the session on Thursday 26.9.
 * Introduction: What is predictive analytics? 
   - The second sentence is quite long. Rephrase it for example dividing into two
     separate sentences.
-
-* Fix crossvalidation import in the script hands-on.py
 
 * Histograms
   - In the presentation: motivate them better
@@ -17,18 +14,17 @@ Feedback and improvement ideas from the session on Thursday 26.9.
   - Differents tasks/phases in the real world problem
   - Examples of real use cases
 
-* Add target audience in the beginning of the web intro
-  - Jarkko: I am not totally sure in which this refers
+* Add target audience in the beginning of the README.md and dev day page. 
 
-* Keynote -> pdf
+* Keynote -> pdf (both)
 
 * Update figure: x^Tw -> x^Tw = 0
 
 * Re-think whether data should be manipulated such that claseses could not 
   be separated that well
-  - adding noise or duplicates etc.?
+  - add noise or data points near the p=0.5 surface?
 
-* hands-on.py includes tabs and spaces -> fix
+* hands-on.py includes tabs and spaces -> fix (C-x h M-x untabify in emacs)
 
 * Make the end of the second part more functional, i.e.
   a plotting of the nonlinear decision boundary should be impelented as 
