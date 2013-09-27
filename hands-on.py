@@ -4,7 +4,7 @@ import pylab as pl
 import numpy as np
 
 # Our own plotting functions, somewhat specific to this hands-on session. 
-from plots import *
+import plots
 
 # Read the data (edit the path if necessary).
 # We us pandas DataFrame data structure. It is a 2-dimensional
@@ -30,8 +30,7 @@ def chemvars(df):
 print chemvars(df).describe()
 
 # Histograms of all predictors.
-plot_histograms(chemvars(df))
-
+plots.histograms(chemvars(df))
 # The wine type is a string. Make a boolean type indicator.
 def is_red(df): return np.array(df['wine_color']=="red", int)
 
@@ -41,8 +40,7 @@ y = is_red(df)
 # Histograms by the wine type.
 # Hint: This is very useful when you select or transform variables for a model
 # later. 
-plot_class_hists(y, chemvars(df), alpha=.3)
-
+plots.class_histograms(y, chemvars(df), alpha=.3)
 # Pandas data frames are handy for calculating class-wise summary statistics.
 # Some examples...
 # - Percentages of wine types in the data
@@ -60,10 +58,10 @@ print df.groupby(y).std()
 # Hint: Try other predictors. Look at the histograms by wine type.
 
 # Plot scatter plot of the chosen vars, colors specify wine type.
-plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', alpha=0.2, ymax=0.4)
+plots.scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', alpha=0.2, ymax=0.4)
 # Our function allows transformations, see the code in plots.py
 # Logarithm compresses high values and opens up the scale at the lower end.
-plot_scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', np.log, np.log, alpha=0.2, ymax=0.4)
+plots.scatter(y, chemvars(df), 'fixed_acidity', 'chlorides', np.log, np.log, alpha=0.2, ymax=0.4)
 
 
 
@@ -109,7 +107,7 @@ print pacc(y, p)
 # all possible wines, that is, all possible values of vars2d.
 # (remember, 'intercept' is just a constant)
 # Note the zoom tool in the fig!
-visualize_result_2d_linear(y, X, mfit, 'fixed_acidity', 'chlorides')
+plots.decision_surface(y, X, mfit, 'fixed_acidity', 'chlorides')
 
 # Shades of gray are probabilities.
 # (You may want to look at the plotting code in plots.py, but it is not relevant
@@ -123,21 +121,22 @@ visualize_result_2d_linear(y, X, mfit, 'fixed_acidity', 'chlorides')
 # Then the model is still linear with respect to the variables it sees, but not
 # with respect to the original data!
 def add_mterm(X, vars):
-    """Add a multiplicative term to the model."""
-    X = X.copy()
-    X['*'.join(vars)] = np.multiply.reduce(X[list(vars)].values, 1)
-    return X
+	"""Add a multiplicative term to the model."""
+	X = X.copy()
+	X['*'.join(vars)] = np.multiply.reduce(X[list(vars)].values, 1)
+	return X
 
 # Here are some multiplicative terms.
 # For example, (var1, var1) will add the term var1*var1 to the model,
 # so the model would be var1 + var2 + var1*var2 + intercept
 def nonlins(v1, v2):
 	# A bunch of simple nonlinear multiplicative terms. 
-    # Hint: You may edit the terms to test different terms.
+	# Hint: You may want to edit the terms or define a more general function.
 	return [(v1, v1), (v2, v2), (v1, v1, v1), (v2, v2, v2), (v1, v2)]
 # Let's make a data with all the nonlinear terms above!
 v1, v2 = 'fixed_acidity', 'chlorides'
-Xn = reduce(add_mterm, nonlins(v1, v2), preds2(df, v1, v2))
+def expand(X): return reduce(add_mterm, nonlins(v1, v2), X) # Binds the locals, not nice (FIXME?)
+Xn = expand(preds2(df, v1, v2))
 y = is_red(df)				# (just as a reminder)
 
 # Fit the model with all the new nonlinear terms. 
@@ -151,28 +150,8 @@ p_nl = mfit_nl.predict(Xn)
 # How many does it get right, in percentages?
 print pacc(y, p_nl)
 
-# Visualize the probabilities (decision boundary) of the nonlinear model.
-# This relies on v1, v2, and mfit defined above.
-# - Set up a grid of values of the original variables 
-x1g, x2g = np.meshgrid(vargrid(df[v1]), vargrid(df[v2]))
-# - Make a data frame out of the values on the grid. 
-Xg = pd.DataFrame({v1 : np.ravel(x1g), v2: np.ravel(x2g), 'intercept': 1.0})
-# - Expand the data frame by computing all the nonlinearities.
-Xg = reduce(add_mterm, nonlins(v1, v2), Xg)
-# - Make sure the order of the terms is as in the original data
-Xg = Xg[Xn.columns]
-# - Compute predictions
-pg = mfit_nl.predict(Xg)
-
-# - Plot them
-h = pl.contourf(x1g, x2g, np.reshape(pg, x1g.shape), 300, cmap=pl.cm.gist_yarg)
-cbar = pl.colorbar()
-cbar.set_label('probability for y=1')
-# - Overlay the data on top of predictions
-pl.plot(X[v1][y==0], X[v2][y==0], 'g^', markeredgecolor='g', alpha=0.5)
-pl.plot(X[v1][y==1], X[v2][y==1], 'r*', markeredgecolor='r', alpha=0.5)
-pl.xlabel(v1); pl.ylabel(v2)
-pl.show()
+# Visualize the probabily surface of the nonlinear model.
+plots.decision_surface(y, X, mfit_nl, v1, v2, expander=expand)
 # Quite a complex decision surface!
 # Again, note the zoom tool in the plot window.
 

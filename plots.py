@@ -17,7 +17,7 @@ def hcolsrows(X):
     rows = int(np.ceil(len(X.columns) / float(cols)))
     return cols, rows
 
-def plot_histograms(X, no_bins=50):
+def histograms(X, no_bins=50):
     cols, rows = hcolsrows(X)
     for count, vi in enumerate(X.columns.values):
         pl.subplot(rows, cols, count+1)
@@ -26,7 +26,7 @@ def plot_histograms(X, no_bins=50):
     pl.show()
 
 ## Plot histograms of all the variables (target classes separately)
-def plot_class_hists(y, X, no_bins=50, alpha=0.5):
+def class_histograms(y, X, no_bins=50, alpha=0.5):
     cols, rows = hcolsrows(X)
     for count, vi in enumerate(X.columns.values):
         pl.subplot(rows, cols, count+1)
@@ -37,7 +37,7 @@ def plot_class_hists(y, X, no_bins=50, alpha=0.5):
 
 
 _1 = lambda x: x
-def plot_scatter(y, X, var1, var2, f1=_1, f2=_1, alpha=0.5, xmax=None, ymax=None):
+def scatter(y, X, var1, var2, f1=_1, f2=_1, alpha=0.5, xmax=None, ymax=None):
     pl.plot(f1(X[var1][y==0]), f2(X[var2][y==0]), 'g^', markeredgecolor='g', alpha=alpha)
     pl.plot(f1(X[var1][y==1]), f2(X[var2][y==1]), 'r*', markeredgecolor='r', alpha=alpha)
     pl.xlabel(var1)
@@ -45,18 +45,21 @@ def plot_scatter(y, X, var1, var2, f1=_1, f2=_1, alpha=0.5, xmax=None, ymax=None
     pl.show()
 
 ## Visualize the result
-def visualize_result_2d_linear(y, X, ml, var1, var2, alpha=0.25):
-    # Set up a 2d grid
+def decision_surface(y, X, mfit, var1, var2, alpha=0.25, expander=None):
+    # Set up a grid of values of the original variables 
     x1g, x2g = np.meshgrid(vargrid(X[var1]), vargrid(X[var2]))
+    # Make a data frame out of the values on the grid.
     Xg = pd.DataFrame({var1 : np.ravel(x1g), var2 : np.ravel(x2g), 'intercept' : 1.0})
-    # Draw predictions below
-    p = ml.predict(Xg[[var1, var2, 'intercept']])
-    #h = pl.contourf(x1g, x2g, np.reshape(p, x1g.shape), 500, alpha=0.2)
+    # Expand the data frame by computing all the nonlinearities.
+    if expander: Xg = expander(Xg[X.columns]) # The index thing fixes column order. 
+    # Compute predictions, and plot them.
+    p = mfit.predict(Xg)
     h = pl.contourf(x1g, x2g, np.reshape(p, x1g.shape), 300, cmap=pl.cm.gist_yarg)
     cbar = pl.colorbar()
     cbar.set_label('probability for y=1')
-    # ... and data above.
+    # Plot data on top of predictions.
     pl.plot(X[var1][y==0], X[var2][y==0], 'go', markeredgecolor='g', alpha=alpha)
     pl.plot(X[var1][y==1], X[var2][y==1], 'ro', markeredgecolor='r', alpha=alpha)
     pl.xlabel(var1); pl.ylabel(var2)
     pl.show()
+
