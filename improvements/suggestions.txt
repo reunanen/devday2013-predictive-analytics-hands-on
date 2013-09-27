@@ -20,8 +20,6 @@ Feedback and improvement ideas from the session on Thursday 26.9.
   be separated that well
   - add noise or data points near the p=0.5 surface?
 
-* hands-on.py includes tabs and spaces -> fix (C-x h M-x untabify in emacs)
-
 * Make the end of the second part more functional, i.e.
   a plotting of the nonlinear decision boundary should be impelented as 
   a function -> would be easier to use
