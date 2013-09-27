@@ -1,6 +1,12 @@
 Dev Day 2013: Predictive Analytics Hands-on session
 ===================================================
 
+Predictive analytics is one of the hottest topics in tech business at the moment. This session
+gives a practical overview to solve an analytics problem. You will get a feeling of predictive
+modelling by exploring data, seeing a mathematical problem formulation, and implementing
+the solution having a focus on the latter one. No previous knowledge with analytics is assumed,
+only curiosity and creativity with some programming skills are needed.
+
 If possible, please prepare for this session by downloading the virtual machine or the relevant libraries *beforehand*. (See section "Getting ready" below.)
 
 It is a good idea to pair up for this session. If you are not familiar with Python, it is recommended that you find someone who is.

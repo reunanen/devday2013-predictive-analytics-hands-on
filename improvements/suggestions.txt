@@ -9,6 +9,7 @@ Feedback and improvement ideas from the session on Thursday 26.9.
   - Examples of real use cases
 
 * Add target audience in the beginning of the README.md and dev day page. 
+  - The first draft added by jarkko.
 
 * Keynote -> pdf (both)
 
