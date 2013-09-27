@@ -95,7 +95,7 @@ You need:
 
 ## What is predictive analytics?
 
-Analytics produces actionable information from observations or from results of experiments ("data sets"). The results may be informative summaries of the data, suggest causal relations or new hypotheses for further testing, reveal underlying relationships, quantify uncertainty as probabilities or confidence intervals, or be very operational suggestions of actions, possibly embedded into an IT system. Statistical and other kind of _models_ are used to achieve these goals.
+Analytics produces actionable information from observations or from results of experiments ("data sets"). The results of analytics are diverse. They may be just informative summaries of the data, with uncertainty quantified as probabilities or confidence intervals. Analytics may reveal underlying relationships, suggest causality, or new hypotheses for further testing. Sometimes the results are very operational suggestions of actions, possibly embedded into an IT system, so that humans only see the actions, not the analytics. Statistical and other kind of _models_ are used to achieve these goals.
 
 Models of analytics do not usually try to reproduce the exact dynamics of the system under study, as for example weather models do. Instead, they are highly simplified abstractions of the world. Their structure usually just tries to take into account the surface tendencies and dependencies in the data. The simplest model structures can be applied on almost any domain, from physics to psychology to business. Because of this simplification, the models are inherently probabilistic: Things not taken into account or impossible to predict appear as uncertainty in the model.
 
