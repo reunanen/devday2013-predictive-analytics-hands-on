@@ -200,7 +200,12 @@ def triangular(x): return [(i, j) for i in x for j in x if i<j]
 
 # By following command you may create quadratic terms
 df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
+# Note with big models: 
+# If your models blow up, that is, the fitter gives an error about a singular matrix,
+# try the regularization approach (below). 
 
+
+# As a side step, befor regularization...
 # Cross validation does not waste half of the data for testing:
 # It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
 # and loops this through all the ten pieces. 
@@ -216,43 +221,42 @@ print 100*n_success/float(len(df))
 
 
 
-# In the case of singular matrices, you could try regularization.
-# Regularization is a technique to solve ill-posed problems
-# by introducing a penalty term to control complexity of 
-# the solution.
-# More info about regularization:
+# Does your model blow up, complaining about a singular matrix?
+#    "numpy.linalg.linalg.LinAlgError: Singular matrix"
+# This is because the maximum likelihood solution becomes unidentifiable:
+# It is either not unique any more, or is numerically very unstable. 
+# Then you need a better estimation method, and that is Maximum a Posteriori (MAP).
+# https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation
 # http://en.wikipedia.org/wiki/Regularization_(mathematics)
+# https://en.wikipedia.org/wiki/Bayesian_interpretation_of_regularization
 
-# Regularization includes a hyperparameter C which controls
-# the complexity of the solution. In this case, smaller values
-# C specify stronger regularization, i.e. more well behaving
-# solution.
+# MAP or regularization makes the solution identifiable by making
+# coefficients near zero more probable. To realize this near-zero preference, 
+# a new term is introduced to the cost function, with a weight C.
+# The larger the C, the closer to zero the coefficients tend to be. 
 
-# Furthermore, by a proper value of C some of the parameter
-# estimates are exactly zero corresponding to rejecting those
-# variables out of the model. Thus, regularization is 
-# one technique to perform variable selection.
+# If you use L1 regularization, some coefficients will be exactly zero,
+# or up to numerical (estimation) accuracy anyways. That is, L1 is a way
+# to realize automatic variable selection. 
 
-# Various hyperparameter values C should be tested and
-# the most appropriate one can be selected using
-# for example prediction accuracy on test data or 
-# cross-validation.
+# In practice, one tries different values of C and evaluates the models
+# with test data or cross validation. 
 
-# Regularization techniques assume that all variables are centered around zero 
-# and have variance in the same order. If a variable has a variance that is orders
-# of magnitude larger that others, it might dominate in the model fitting and 
-# make the model unable to learn correctly.
+# Regularization is our prior statement about the coefficients of the model.
+# As the coefficients are (inversely) related to the scales of the variables,
+# we need to rescale the data to some known and standard scale beforehand.
+# The convention is to make the standard deviation of all variables equal to one.
 
-# Calculate the scaling parameters. The parameters are stored 
-# such that they can be applied to other data (test) as well.
-# When scaler is applied, it makes the columns of data set to have
-# zero mean and unit variance.
+# So here we go...
+# Create a scaler object. This needs to be wrapped in an object, because
+# the same scaling needs to be used multiple times. 
 scaler = skp.StandardScaler().fit(chemvars(df_train))
 
-# Create a regularized logistic regresion model.
+# Create a model object with L1 regularization, and C=1.
+# The data is not shown to the model yet. :)
 m_l1 = skl.LogisticRegression(C=1, penalty='l1')
 
-# Fit the model, i.e. optimize the parameters
+# Fit the model, i.e., optimize the parameters.
 m_l1.fit(scaler.transform(chemvars(df_train)), is_red(df_train))
 
 # The values of parameters
@@ -261,21 +265,24 @@ print m_l1.coef_
 # The number of variables (columns) having zero coefficient
 print sum((abs(m_l1.coef_[0])<0.001).astype(int))
 
-# The names of the selected variables
+# The names of the variables with non-zero coefficients.
 print chemvars(df_train).columns[(abs(m_l1.coef_[0])>0.001)]
 
+# Compute predictions for the training data. 
+# This class gives probabilities for both classes, hence [:, 1].
+p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train)))[:, 1]
 
-# The predicted probabilitites (training data)
-# In this case, the output includes probabilitites for 
-# for both classes. The first column is probability
-# for y=0 and the second one for y=1.
-p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train)))
+# Training set accuracy
+print pacc(is_red(df_train), p_train)
 
-# Training accuracy
-print pacc(is_red(df_train), p_train[:,1])
-
-# The predicted probabilitites for test data
+# Predictions (probabilities) for test data
 p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test)))
 
 # Test accuracy
-print pacc(is_red(df_test), p_test[:,1])
+print pacc(is_red(df_test), p_test)
+
+# You may want to play with a larger model (consider trainign with df_big above), and different values of C.
+# Use the test set or cross validation to evaluate the results.
+# You may also try to plot the decision surface with respect to two important variables in the model.
+# (For that, you need to fix the values of other variables, of course.)
+
