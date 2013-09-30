@@ -2,6 +2,8 @@ import pandas as pd
 import statsmodels.api as sm
 import pylab as pl
 import numpy as np
+import sklearn.linear_model as skl
+import sklearn.preprocessing as skp
 
 # Our own plotting functions, somewhat specific to this hands-on session. 
 import plots
@@ -236,11 +238,6 @@ print 100*n_success/float(len(df))
 # for example prediction accuracy on test data or 
 # cross-validation.
 
-# Import required packages
-from sklearn.linear_model import LogisticRegression
-from sklearn import preprocessing
-
-
 # Regularization techniques assume that all variables are centered around zero 
 # and have variance in the same order. If a variable has a variance that is orders
 # of magnitude larger that others, it might dominate in the model fitting and 
@@ -248,12 +245,12 @@ from sklearn import preprocessing
 
 # Calculate the scaling parameters. The parameters are stored 
 # such that they can be applied to other data (test) as well.
-# When scaler is applied, it makes the columns of X to have
+# When scaler is applied, it makes the columns of data set to have
 # zero mean and unit variance.
-scaler = preprocessing.StandardScaler().fit(chemvars(df_train))
+scaler = skp.StandardScaler().fit(chemvars(df_train))
 
-# Create a regularizes logistic regresion model.
-m_l1 = LogisticRegression(C=1, penalty='l1')
+# Create a regularized logistic regresion model.
+m_l1 = skl.LogisticRegression(C=1, penalty='l1')
 
 # Fit the model, i.e. optimize the parameters
 m_l1.fit(scaler.transform(chemvars(df_train)), is_red(df_train))
@@ -261,10 +258,17 @@ m_l1.fit(scaler.transform(chemvars(df_train)), is_red(df_train))
 # The values of parameters
 print m_l1.coef_
 
+# The number of variables (columns) having zero coefficient
+print sum((abs(m_l1.coef_[0])<0.001).astype(int))
+
+# The names of the selected variables
+print chemvars(df_train).columns[(abs(m_l1.coef_[0])>0.001)]
+
+
 # The predicted probabilitites (training data)
 # In this case, the output includes probabilitites for 
 # for both classes. The first column is probability
-# for y=0 and the second one foir y=1.
+# for y=0 and the second one for y=1.
 p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train)))
 
 # Training accuracy
