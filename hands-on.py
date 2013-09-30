@@ -211,3 +211,67 @@ n_success = cv(is_red(df), my_preds2(df), 10,
 	       # The function to evaluate results: How many are right?
 	       lambda p, y: sum(y == (p>0.5)))	
 print 100*n_success/float(len(df))
+
+
+
+# In the case of singular matrices, you could try regularization.
+# Regularization is a technique to solve ill-posed problems
+# by introducing a penalty term to control complexity of 
+# the solution.
+# More info about regularization:
+# http://en.wikipedia.org/wiki/Regularization_(mathematics)
+
+# Regularization includes a hyperparameter C which controls
+# the complexity of the solution. In this case, smaller values
+# C specify stronger regularization, i.e. more well behaving
+# solution.
+
+# Furthermore, by a proper value of C some of the parameter
+# estimates are exactly zero corresponding to rejecting those
+# variables out of the model. Thus, regularization is 
+# one technique to perform variable selection.
+
+# Various hyperparameter values C should be tested and
+# the most appropriate one can be selected using
+# for example prediction accuracy on test data or 
+# cross-validation.
+
+# Import required packages
+from sklearn.linear_model import LogisticRegression
+from sklearn import preprocessing
+
+
+# Regularization techniques assume that all variables are centered around zero 
+# and have variance in the same order. If a variable has a variance that is orders
+# of magnitude larger that others, it might dominate in the model fitting and 
+# make the model unable to learn correctly.
+
+# Calculate the scaling parameters. The parameters are stored 
+# such that they can be applied to other data (test) as well.
+# When scaler is applied, it makes the columns of X to have
+# zero mean and unit variance.
+scaler = preprocessing.StandardScaler().fit(chemvars(df_train))
+
+# Create a regularizes logistic regresion model.
+m_l1 = LogisticRegression(C=1, penalty='l1')
+
+# Fit the model, i.e. optimize the parameters
+m_l1.fit(scaler.transform(chemvars(df_train)), is_red(df_train))
+
+# The values of parameters
+print m_l1.coef_
+
+# The predicted probabilitites (training data)
+# In this case, the output includes probabilitites for 
+# for both classes. The first column is probability
+# for y=0 and the second one foir y=1.
+p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train)))
+
+# Training accuracy
+print pacc(is_red(df_train), p_train[:,1])
+
+# The predicted probabilitites for test data
+p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test)))
+
+# Test accuracy
+print pacc(is_red(df_test), p_test[:,1])
