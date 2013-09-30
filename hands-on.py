@@ -107,7 +107,7 @@ print pacc(y, p)
 # all possible wines, that is, all possible values of vars2d.
 # (remember, 'intercept' is just a constant)
 # Note the zoom tool in the fig!
-plots.decision_surface(y, X, mfit, 'fixed_acidity', 'chlorides')
+plots.decision_surface(y, X, mfit.predict, 'fixed_acidity', 'chlorides')
 
 # Shades of gray are probabilities.
 # (You may want to look at the plotting code in plots.py, but it is not relevant
@@ -154,7 +154,7 @@ print pacc(y, p_nl)
 # Visualize the probabily surface of the nonlinear model.
 # Note that the plotter needs a function that maps a two-dimensional data frame
 # onto the higher dimensional training data. 
-plots.decision_surface(y, X, mfit_nl, v1, v2, nlmap=add_nonlins)
+plots.decision_surface(y, X, mfit_nl.predict, v1, v2, nlmap=add_nonlins)
 # Quite a complex decision surface!
 # Again, note the zoom tool in the plot window.
 
