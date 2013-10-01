@@ -142,7 +142,7 @@ Before modelling, it is essential to get familiar with the data. Simple statisti
 
 ![Histogram with classes](img/hists_clasess2.png)
 
-A scatter plot shows not only variation but _covariation_ of two variables. Other information can be included. Below colours of the dots present wine type, so one sees how well the red (red dots) and white (yellowish dots) wines are separated by these two variables.
+A scatter plot shows not only variation but _covariation_ of two variables. Other information can be included. Below colours of the dots present wine type, so one sees how well the red (red dots) and white (green dots) wines are separated by these two variables.
 
 The blue line is a _decision boundary_ that could be used to classify new wines, if only these two variables were available. In our case, the objective of modelling is to find a decision boundary such that the classification accuracy of _new, yet unseen wines_, is maximized.
 
