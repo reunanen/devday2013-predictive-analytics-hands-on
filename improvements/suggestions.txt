@@ -1,15 +1,4 @@
-Feedback and improvement ideas from the session on Thursday 26.9.
 
-* Add target audience in the beginning of the README.md and dev day page. 
-  - The first draft added by jarkko.
-  - Review and send to forward to be added to teh web page if/when OK.
+Improvement suggestions may be collected into this file.
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-* Keynote -> pdf (both)
-
-* Re-think whether data should be manipulated such that claseses could not 
-  be separated that well
-  - add noise or data points near the p=0.5 surface?
-
-* Make the end of the second part more functional, i.e.
-  a plotting of the nonlinear decision boundary should be impelented as 
-  a function -> would be easier to use
