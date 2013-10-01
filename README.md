@@ -150,7 +150,7 @@ The blue line is a _decision boundary_ that could be used to classify new wines,
 
 A decision boundary can also be 'soft' in the sense that near the boundary we know that the correct class could really be either. Furthermore, the decision boundary can be _non-linear_. The figure below illustrates a non-linear, 'soft' decision rule.
 
-![Scatter plot with a non-linear decision boundary](img/scatter_nonlinear.png)
+![Scatter plot with a non-linear decision boundary](img/scatter_nonlinear2.png)
 
 ## Logistic regression
 
