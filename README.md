@@ -168,6 +168,6 @@ Regularized models at the end of the session script use another optimization cri
 
 The task is to devise a classifier for the colour of wine, given examples of existing wines and their eleven chemical properties (which are not directly related to colour). The step by step code is in the file [hands-on.py](https://github.com/reunanen/devday2013-predictive-analytics-hands-on/blob/master/hands-on.py). 
 
-You may want to use a REPL to go through the steps in the code. `ipython` is preferred, although the usual `python` prompt will also do. If you write a lot of code, it is handier to use either `Emacs` with its `python-mode`, or Python IDE like `idle`, or run the code with `python -i <file>` so that you have a prompt in the environment created by your code to work with. 
+You may want to use a REPL to go through the steps in the code. *ipython* is preferred, although the usual *python* prompt will also do. If you write a lot of code, it is handier to use *Emacs* with its *python-mode*, or something similar, or a Python IDE like *idle*. You can also run the code with `python -i <file>` so that you have a prompt in the environment created by your code to work with. 
 
 At any point, if you think you are lost, feel free to ask!
