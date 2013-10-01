@@ -288,5 +288,5 @@ print pacc(is_red(df_test), p_test)
 # You may also try to plot the decision surface with respect to two important variables in the model.
 # (For that, you need to fix the values of other variables, of course.)
 
-# Hint: You may start by finding a such a small value for C that all the coefficients are zero
-#       and then increasing the value of C using the logarithmic scale.
+# Hint: You may start by small enough value for C to make all the model coefficients to zero,
+#       and then gradually increasing C, preferably using a logarithmic scale.
