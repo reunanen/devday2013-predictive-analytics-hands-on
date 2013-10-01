@@ -40,8 +40,8 @@ Please note that:
 
 Once you have the virtual machine running, update the latest instructions and code from GitHub:
 
-        cd ~/devday2013-predictive-analytics-hands-on
-        git pull
+	cd ~/devday2013-predictive-analytics-hands-on
+	git pull
 
 If you don't want to use the virtual machine, feel free to install the environment directly onto your computer. The necessary libraries are listed below.
 
@@ -51,7 +51,7 @@ If you don't want to use the virtual machine, feel free to install the environme
 
 The data and some sample code you can get from GitHub:
 
-        git clone https://github.com/reunanen/devday2013-predictive-analytics-hands-on
+	git clone https://github.com/reunanen/devday2013-predictive-analytics-hands-on
 
 ### On Linux
 
