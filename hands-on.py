@@ -205,7 +205,7 @@ df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
 # try the regularization approach (below). 
 
 
-# As a side step, befor regularization...
+# As a side step, before regularization...
 # Cross validation does not waste half of the data for testing:
 # It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
 # and loops this through all the ten pieces. 
