@@ -232,8 +232,8 @@ print 100*n_success/float(len(df))
 
 # MAP or regularization makes the solution identifiable by making
 # coefficients near zero more probable. To realize this near-zero preference, 
-# a new term is introduced to the cost function, with a weight C.
-# The larger the C, the closer to zero the coefficients tend to be. 
+# a new term is introduced to the cost function, with a weight 1/C.
+# The smaller the C, the closer to zero the coefficients tend to be. 
 
 # If you use L1 regularization, some coefficients will be exactly zero,
 # or up to numerical (estimation) accuracy anyways. That is, L1 is a way
@@ -250,14 +250,16 @@ print 100*n_success/float(len(df))
 # So here we go...
 # Create a scaler object. This needs to be wrapped in an object, because
 # the same scaling needs to be used multiple times. 
-scaler = skp.StandardScaler().fit(chemvars(df_train))
+# Notice: sklearn package does not work correctly with pandas DataFrames, 
+#         but it assumes data as numpy arrays.
+scaler = skp.StandardScaler().fit(chemvars(df_train).values)
 
 # Create a model object with L1 regularization, and C=1.
 # The data is not shown to the model yet. :)
 m_l1 = skl.LogisticRegression(C=1, penalty='l1')
 
 # Fit the model, i.e., optimize the parameters.
-m_l1.fit(scaler.transform(chemvars(df_train)), is_red(df_train))
+m_l1.fit(scaler.transform(chemvars(df_train).values), is_red(df_train))
 
 # The values of parameters
 print m_l1.coef_
@@ -270,13 +272,13 @@ print chemvars(df_train).columns[(abs(m_l1.coef_[0])>0.001)]
 
 # Compute predictions for the training data. 
 # This class gives probabilities for both classes, hence [:, 1].
-p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train)))[:, 1]
+p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train).values))[:, 1]
 
 # Training set accuracy
 print pacc(is_red(df_train), p_train)
 
 # Predictions (probabilities) for test data
-p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test)))
+p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test).values))
 
 # Test accuracy
 print pacc(is_red(df_test), p_test)
@@ -286,3 +288,5 @@ print pacc(is_red(df_test), p_test)
 # You may also try to plot the decision surface with respect to two important variables in the model.
 # (For that, you need to fix the values of other variables, of course.)
 
+# Hint: You may start by finding a such a small value for C that all the coefficients are zero
+#       and then increasing the value of C using the logarithmic scale.
