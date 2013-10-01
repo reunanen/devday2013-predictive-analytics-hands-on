@@ -65,7 +65,7 @@ To run these examples, you should install the following packages (Ubuntu names u
 For Python, you need the following (installation with <a href="http://en.wikipedia.org/wiki/Pip_(package_manager)">pip</a> is recommended):
 
 * [numpy](http://www.numpy.org/), [scipy](http://www.scipy.org/)
-* [matplotlib](http://matplotlib.org/), [pandas](http://pandas.pydata.org/), [statsmodels](http://statsmodels.sourceforge.net/), [scikit-learn](http://scikit-learn.org/stable/)
+* [matplotlib](http://matplotlib.org/), [pandas](http://pandas.pydata.org/), [patsy](https://pypi.python.org/pypi/patsy), [statsmodels](http://statsmodels.sourceforge.net/), [scikit-learn](http://scikit-learn.org/stable/)
 
 ### On OS X
 
@@ -78,7 +78,7 @@ For Python, you need the following (installation with <a href="http://en.wikiped
 		sudo pip install --upgrade numpy
 		sudo pip install scipy # If this fails, try uninstalling and reinstalling numpy
 		sudo pip install pandas cython nose matplotlib ipython
-		sudo pip install statsmodels scikit-learn
+		sudo pip install patsy statsmodels scikit-learn
 
 
 ### On Windows
@@ -89,7 +89,7 @@ You need:
 
 * [ipython](http://www.lfd.uci.edu/~gohlke/pythonlibs/#ipython) (perhaps not stricly necessary, but very useful)
 * [numpy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy), [scipy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy)
-* [matplotlib](http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib), [pandas](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pandas), [statsmodels](http://www.lfd.uci.edu/~gohlke/pythonlibs/#statsmodels), [scikit-learn](http://www.lfd.uci.edu/~gohlke/pythonlibs/#scikit-learn)
+* [matplotlib](http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib), [pandas](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pandas), [patsy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#patsy), [statsmodels](http://www.lfd.uci.edu/~gohlke/pythonlibs/#statsmodels), [scikit-learn](http://www.lfd.uci.edu/~gohlke/pythonlibs/#scikit-learn)
 * [dateutil](http://www.lfd.uci.edu/~gohlke/pythonlibs/#python-dateutil), [pyparsing](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyparsing)
 
 ### Testing
