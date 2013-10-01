@@ -210,7 +210,7 @@ df_big = reduce(add_mterm, diag_triangular(chemvars(df).columns), chemvars(df))
 # It splits the data set into (e.g.) 10 pieces, trains on 9, tests on the remaining one,
 # and loops this through all the ten pieces. 
 
-from crossvalidation import cv
+from crossvalidate import cv
 
 n_success = cv(is_red(df), my_preds2(df), 10,
 	       # The function to build the model and predict
@@ -254,9 +254,9 @@ print 100*n_success/float(len(df))
 #         but it assumes data as numpy arrays.
 scaler = skp.StandardScaler().fit(chemvars(df_train).values)
 
-# Create a model object with L1 regularization, and C=1.
+# Create a model object with L1 regularization, and C=0.01.
 # The data is not shown to the model yet. :)
-m_l1 = skl.LogisticRegression(C=1, penalty='l1')
+m_l1 = skl.LogisticRegression(C=0.01, penalty='l1')
 
 # Fit the model, i.e., optimize the parameters.
 m_l1.fit(scaler.transform(chemvars(df_train).values), is_red(df_train))
@@ -278,7 +278,7 @@ p_train = m_l1.predict_proba(scaler.transform(chemvars(df_train).values))[:, 1]
 print pacc(is_red(df_train), p_train)
 
 # Predictions (probabilities) for test data
-p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test).values))
+p_test = m_l1.predict_proba(scaler.transform(chemvars(df_test).values))[:,1]
 
 # Test accuracy
 print pacc(is_red(df_test), p_test)
