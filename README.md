@@ -14,7 +14,7 @@ Practical ones:
 * [Numpy tutorial](http://wiki.scipy.org/Tentative_NumPy_Tutorial): we will not use Numpy extensively, just for light data manipulation. Numpy is the array manipulation sublanguage of Python (a bit like Matlab).
 * [A short tutorial](http://pandas.pydata.org/pandas-docs/stable/10min.html) on Pandas, the Python "data frame" library. Pandas is a higher-level structure on arrays, allowing heterogeneous columns, column names, etc.
 * [Logistic regression with Python](http://blog.yhathq.com/posts/logistic-regression-and-python.html) and its statsmodels package. Logistic regression is a way to make a classifier that gives out probabilities.
-* [Regularized logistic regression with Python](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) from the [Scikit-learn](http://scikit-learn.org/) package. We don't introduce regularization in this hands-on. In practice it is almost mandatory if you have a large predictive problem. 
+* [Regularized logistic regression with Python](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) from the [Scikit-learn](http://scikit-learn.org/) package. In practice, regularization is mandatory with larger models. You have a chance to try it at the end of the session.
 
 
 More theoretical:
@@ -82,6 +82,7 @@ For Python, you need the following (installation with [`pip`](http://en.wikipedi
             sudo pip install pandas cython nose matplotlib ipython patsy
         sudo pip install statsmodels pymc
 
+
 ### On Windows
 
 You can download the required libraries from [Christoph Gohlke's repository](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
@@ -92,6 +93,10 @@ You need:
 * [numpy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy), [scipy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy)
 * [matplotlib](http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib), [pandas](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pandas), [patsy](http://www.lfd.uci.edu/~gohlke/pythonlibs/#patsy), [statsmodels](http://www.lfd.uci.edu/~gohlke/pythonlibs/#statsmodels)
 * [dateutil](http://www.lfd.uci.edu/~gohlke/pythonlibs/#python-dateutil), [pyparsing](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyparsing)
+
+### Testing
+
+Run `python test-installation.py` to check package installations, data availability and basic model fitting functionality. 
 
 # Introduction
 
@@ -159,6 +164,7 @@ The input variables, or explanatory variables, are here the chemical properties 
 
 The optimization technique is called [maximum likelihood](http://en.wikipedia.org/wiki/Maximum_likelihood). It finds coefficients of the linear combination in the model (parameters of the model) that maximizes the probability of the observed data (wine types, red or white). (The justification for maximum likelihood arises from statistics. It can also be seen as a shortcut to Bayesian estimation. Then it arises from [conditional probability](http://en.wikipedia.org/wiki/Conditional_probability).)
 
+Regularized models at the end of the session script use another optimization criterion, [Maximum a Posteriori (MAP)](https://en.wikipedia.org/wiki/Bayesian_interpretation_of_regularization). MAP is very close to maximum likelihood, just augmented with a preference towards simple models. 
 
 # Hands on
 
