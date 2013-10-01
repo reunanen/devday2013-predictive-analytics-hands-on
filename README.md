@@ -1,7 +1,7 @@
 Dev Day 2013: Predictive Analytics Hands-on session
 ===================================================
 
-The purpose of this session is to give a feeling of what (predictive) analytics is and how it is done, mainly for those who are familiar with coding but not so familiar with statistics or machine learning. Although R is the *Lingua franca* of analytics, we use Python because it is already to familiar to many, and easier to approach for those unfamiliar with it. With a small toy (classification) problem, we go through the steps of getting familiar with the data, devising incrementally more complex models, and applying the model to predict   for new data. There are many changes to get creative with Python coding.  
+The purpose of this session is to give a feeling of what (predictive) analytics is and how it is done, mainly for those who are familiar with coding but not so familiar with statistics or machine learning. Although R is the *Lingua franca* of analytics, we use Python because it is already to familiar to many, and easier to approach for those unfamiliar with it. With a small toy (classification) problem, we go through the steps of getting familiar with the data, devising incrementally more complex models, and applying the model to predict   for new data. There are many chances to get creative with Python coding.  
 
 If possible, please prepare for this session by downloading the virtual machine or the relevant libraries *beforehand*. (See section "Getting ready" below.)
 
