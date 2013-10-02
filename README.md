@@ -16,7 +16,6 @@ Practical ones:
 * [Logistic regression with Python](http://blog.yhathq.com/posts/logistic-regression-and-python.html) and its statsmodels package. Logistic regression is a way to make a classifier that gives out probabilities.
 * [Regularized logistic regression with Python](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) from the [scikit-learn](http://scikit-learn.org/) package. In practice, regularization is mandatory with larger models. You have a chance to try it at the end of the session.
 
-
 More theoretical:
 
 * [Logistic regression on Wikipedia](http://en.wikipedia.org/wiki/Logistic_regression). Easy to understand: a linear regression stacked with an S-curve to make outputs look like probabilities. But in its [full](http://fastml.com/regression-as-classification/) [glory](http://arantxa.ii.uam.es/~jmlobato/docs/slidesCambridge.pdf), a logistic regression model is far from elementary!
@@ -97,6 +96,8 @@ You need:
 Run `python test-installation.py` to check package installations, data availability and basic model fitting functionality. 
 
 # Introduction
+
+The following will be covered during the hands-on session, but feel free to peek already in advance.
 
 ## What is predictive analytics?
 
