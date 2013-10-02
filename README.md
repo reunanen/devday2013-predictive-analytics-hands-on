@@ -42,6 +42,10 @@ Once you have the virtual machine running, update the latest instructions and co
 	cd ~/devday2013-predictive-analytics-hands-on
 	git pull
 
+Note: The virtual machine was updated on Wednesday morning (2nd of October). If running the scripts gives you `ImportError: No module named sklearn.linear_model`, it's probably because you were fast enough to download the virtual machine before it was updated. In that case you simply need to install the Python package scikit-learn (the password is mentioned above):
+
+	sudo pip install scikit-learn
+
 If you don't want to use the virtual machine, feel free to install the environment directly onto your computer. The necessary libraries are listed below.
 
 ## Alternative 2: Required libraries
